@@ -44,9 +44,6 @@ dotnet restore $PROJECT_FILE
 echo "publish ${PROJECT_FILE}"
 dotnet publish $PROJECT_FILE --output ${BUILD_DIR}/heroku_output --configuration Release
 
-echo "LOGGING INFO"
-ls "${BUILD_DIR}/heroku_output"
-
-#cat << EOT >> ${BUILD_DIR}/Procfile
-#web: cd \$HOME/heroku_output && ASPNETCORE_URLS='http://+:\$PORT' dotnet "./${FINAL_DLL}.dll" --server.urls http://+:\$PORT
-#EOT
+cat << EOT >> ${BUILD_DIR}/Procfile
+web: cd \$HOME/heroku_output && ASPNETCORE_URLS='http://+:\$PORT' dotnet "./${FINAL_DLL}.dll" --server.urls http://+:\$PORT
+EOT
