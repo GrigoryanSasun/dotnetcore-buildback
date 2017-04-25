@@ -38,16 +38,12 @@ ls "${BUILD_DIR}"
 PROJECT_NAME=$(basename $(dirname $(find ${BUILD_DIR} -maxdepth 5 -iname Startup.cs | head -1)))
 PROJECT_FILE=$(find ${BUILD_DIR} -maxdepth 5 -iname "*.csproj" | head -1)
 
-echo "LOGGING INFO"
-echo "${PROJECT_FILE}"
-echo "${PROJECT_NAME}"
+echo "restore ${PROJECT_FILE}"
+dotnet restore $PROJECT_FILE
 
-#echo "restore ${PROJECT_FILE}"
-#dotnet restore $PROJECT_FILE
+echo "publish ${PROJECT_FILE}"
+dotnet publish $PROJECT_FILE --output ${BUILD_DIR}/heroku_output --configuration Release
 
-#echo "publish ${PROJECT_FILE}"
-#dotnet publish $PROJECT_FILE --output ${BUILD_DIR}/heroku_output --configuration Release
-
-#cat << EOT >> ${BUILD_DIR}/Procfile
-#web: cd \$HOME/heroku_output && ASPNETCORE_URLS='http://+:\$PORT' dotnet "./${PROJECT_NAME}.dll" --server.urls http://+:\$PORT
-#EOT
+cat << EOT >> ${BUILD_DIR}/Procfile
+web: cd \$HOME/heroku_output && ASPNETCORE_URLS='http://+:\$PORT' dotnet "./${PROJECT_NAME}.dll" --server.urls http://+:\$PORT
+EOT
