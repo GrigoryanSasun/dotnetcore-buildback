@@ -36,7 +36,7 @@ dotnet --info
 echo "LOGGING INFO"
 PROJECT_NAME=$(basename $(dirname $(find ${BUILD_DIR} -maxdepth 5 -iname Startup.cs | head -1)))
 PROJECT_FILE=$(find ${BUILD_DIR} -maxdepth 5 -iname "*.csproj" | head -1)
-FINAL_DLL=$(echo PROJECT_FILE | cut -f 1 -d '.')
+FINAL_DLL=$(echo "${PROJECT_FILE}" | cut -f 1 -d '.')
 echo "${FINAL_DLL}"
 #echo "restore ${PROJECT_FILE}"
 #dotnet restore $PROJECT_FILE
